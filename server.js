@@ -5,9 +5,18 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const morgan = require("morgan");
 const app = express();
+const http = require("http").Server(app);
 const authRouter = require("./routes/authRoutes");
 const quizRouter = require("./routes/quizRoutes");
 const answerRouter = require("./routes/answerRoutes")
+const io = require("socket.io")(http,
+    {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"]
+        }
+    });
+
 
 app.use(cors());
 app.use(express.json());
@@ -16,7 +25,87 @@ app.use("/auth", authRouter);
 app.use("/quiz", quizRouter);
 app.use("/question", answerRouter);
 // app.use(authenticateRequest);
-app.listen(process.env.PORT || 8000);
+http.listen(8000, () => {
+    console.log("Listening on port 8000")
+})
+
+
+
+let rooms = {};
+
+
+io.on("connection", (socket) => {
+    // console.log("socket", socket)
+    console.log("new User:", socket.id)
+
+    socket.on("newRoom", ({ id, question }) => {
+        socket.join(id);
+        rooms[id] = {
+            id: id,
+            question: question,
+            teacher: socket.id,
+            students: {}
+        }
+        console.log("creator", socket.id, 'room', id);
+
+    })
+
+    // !student join quiz
+    socket.on("joinQuiz", ({ id, name }) => {
+        if (!rooms[id]) return;
+        socket.join(id);
+        rooms[id].students[name] = 0;
+
+    });
+    teacher = rooms[id].teacher;
+
+    io.to(teacher).emit("newStudent", { id: socket.id, name })
+    // !teacher starts quiz
+    socket.on("startQuiz", ({ roomId, question }) => {
+
+        let room = rooms[roomId];
+        socket.to(roomId).emit("question", { question });
+
+
+
+    })
+    // !students submit answer
+
+    socket.on("answer", ({ name, answer, roomId }) => {
+
+        let room = rooms[roomId];
+
+        room.students[name] += answer;
+
+
+
+    })
+
+    // ! Get results
+    socket.on("result", ({ roomId }) => {
+        io.to(socket.id).emit("score", { score: room.students })
+    })
+
+
+    // ! Quiz end
+
+    socket.on("end", (roomId) => {
+        let room = rooms[roomId];
+        delete rooms[roomId]
+    })
+
+    // !user lrft 
+    socket.on("disconnect", () => {
+        console.log(socket.id, "disconnected")
+    })
+
+
+})
+
+
+
+
+
 
 
 

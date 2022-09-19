@@ -36,6 +36,16 @@ router.get("/get", async (req, res) => {
 
 
 // ! Delete a Quiz
+router.post("/delete", async (req, res) => {
+
+    let { id } = req.body;
+    if (!id) return res.status(400).send({ msg: "Invalid id" });
+    let foundQuiz = await QuizModel.findByIdAndDelete(id);
+    return res.send({ quiz: foundQuiz });
+
+
+
+})
 
 
 

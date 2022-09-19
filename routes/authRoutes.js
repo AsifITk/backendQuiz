@@ -9,13 +9,16 @@ const router = express.Router();
 //! Add a new Teacher "/auth/signup"
 router.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
-    console.log(name, email, password);
+    // console.log(name, email, password);
     if (!email || !password || !name) {
         return res.status(400).json({ msg: "Please fill all fields" });
     }
 
-    const existingTeacher = await TeacherModel.findOne({ email: email });
-    if (existingTeacher) {
+
+    const existingTeacher = await TeacherModel.find({ email: email });
+    console.log(existingTeacher);
+
+    if (existingTeacher.length !== 0) {
         return res.status(400).json({
             msg: "Teacher already exists"
         });
@@ -51,13 +54,20 @@ router.post("/signup", async (req, res) => {
 //! Login a new user "/auth/login"
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
+
     console.log(email, password);
 
     if (!email || !password) {
         return res.status(400).json({ msg: "Please fill all fields" });
     }
-    const Teacher = await TeacherModel.findOne({ email: email });
-    let payload = { email: Teacher.email };
+    const Teacher = await TeacherModel.findOne({ email: email }).populate({
+        path: "quizzes",
+        populate: {
+            path: 'questions'
+        }
+    });
+    console.log(Teacher);
+    let payload = { email: email };
     if (!Teacher) {
         return res.status(400).json({ msg: "Teacher does not exist" });
     }
@@ -76,19 +86,24 @@ router.post("/login", async (req, res) => {
     res.send({
         accessToken: accessToken,
         refreshToken: refreshToken,
-        id: Teacher._id
+        teacher: Teacher
     });
 });
 
 //! Get a users details "/auth/:id"
-router.get("/teacher/:id", async (req, res) => {
-    const teacherId = req.params.id
-    const Teacher = await userModel.findById(userId);
+router.post("/teacher", async (req, res) => {
+    const { id } = req.body;
+    const Teacher = await TeacherModel.findById(id).populate({
+        path: "quizzes",
+        populate: {
+            path: 'questions'
+        }
+    });
     console.log(Teacher);
     if (Teacher == null) {
         return res.status(400).send("Teacher not found")
     }
-    return res.status(200).send(user);
+    return res.status(200).send(Teacher);
 });
 //! Get a new refrech token
 router.get("/token", async (req, res) => {
