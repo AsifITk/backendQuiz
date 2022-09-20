@@ -38,15 +38,18 @@ io.on("connection", (socket) => {
     // console.log("socket", socket)
     console.log("new User:", socket.id)
 
-    socket.on("newRoom", ({ id, question }) => {
-        socket.join(id);
-        rooms[id] = {
-            id: id,
+    socket.on("newRoom", ({ roomId, question }) => {
+        console.log(question)
+        socket.join(roomId);
+        rooms[roomId] = {
+            roomId: roomId,
             question: question,
             teacher: socket.id,
             students: {}
         }
-        console.log("creator", socket.id, 'room', id);
+        io.to(socket.id).emit("rooms", { rooms: rooms })
+
+        console.log("creator", socket.id, 'room', roomId);
 
     })
 
@@ -56,19 +59,36 @@ io.on("connection", (socket) => {
         socket.join(id);
         rooms[id].students[name] = 0;
 
+        teacher = rooms[id].teacher;
+        io.to(teacher).emit("newStudent", { id: socket.id, name: name })
     });
-    teacher = rooms[id].teacher;
 
-    io.to(teacher).emit("newStudent", { id: socket.id, name })
     // !teacher starts quiz
     socket.on("startQuiz", ({ roomId, question }) => {
+        console.log("Running stat");
+        console.log(roomId)
 
         let room = rooms[roomId];
-        socket.to(roomId).emit("question", { question });
+        io.to(roomId).emit("question", { question: question });
 
 
 
     })
+
+    // !next question
+    // !teacher starts quiz
+    socket.on("next", ({ roomId, key }) => {
+        console.log("Running next");
+        console.log(roomId)
+
+        let room = rooms[roomId];
+        io.to(roomId).emit("next", { key: key });
+
+
+
+    })
+
+
     // !students submit answer
 
     socket.on("answer", ({ name, answer, roomId }) => {
@@ -94,7 +114,7 @@ io.on("connection", (socket) => {
         delete rooms[roomId]
     })
 
-    // !user lrft 
+    // !user left 
     socket.on("disconnect", () => {
         console.log(socket.id, "disconnected")
     })
