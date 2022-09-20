@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "3ddac7af-8f1c-44cf-985d-972b7b8dedd0",
+		"name": "questions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22656052"
+	},
+	"item": [
+		{
+			"name": "add aquestion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"question\":\"this is another question\",\r\n\"answer\":{\"true\":\"correctans\" ,\"false\":\"false ans\"},\r\n\"quiz\":\"6327292a7c47a40dc39b7e6a\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/question/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"question",
+						"add"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n\"question\":\"this is another question\",\r\n\"answer\":{\"true\":\"correctans\" ,\"false\":\"false ans\"},\r\n\"quiz\":\"6327292a7c47a40dc39b7e6a\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/question/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"question",
+								"add"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "316"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"13c-E+H2XjdFrgfn3r5wOk28zWkWsqE\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 18 Sep 2022 17:59:05 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"qus\": {\n        \"question\": \"this is another question\",\n        \"_id\": \"63275c69ec35214abbb31659\",\n        \"__v\": 0\n    },\n    \"quiz\": {\n        \"_id\": \"6327341cf7c9138ce0673af1\",\n        \"name\": \"Math Quiz\",\n        \"teacher\": \"6327292a7c47a40dc39b7e6a\",\n        \"__v\": 0,\n        \"questions\": {\n            \"63275c3cec35214abbb31655\": \"63275c3cec35214abbb31655\",\n            \"63275c69ec35214abbb31659\": \"63275c69ec35214abbb31659\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete question",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

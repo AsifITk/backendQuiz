@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "c1e93be5-9059-4c1d-a93e-775c5f0382a7",
+		"name": "quiz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22656052"
+	},
+	"item": [
+		{
+			"name": "Create a Quiz",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"physics10 Quiz\",\r\n    \"teacher\":\"6327292a7c47a40dc39b7e6a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/quiz/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"quiz",
+						"create"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a Quiz",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"physics6 Quiz\",\r\n    \"teacher\":\"6327292a7c47a40dc39b7e6a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/quiz/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"quiz",
+								"create"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "473"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1d9-S1MUZe6GSmawWJhNw7ws38M9FFE\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 18 Sep 2022 18:46:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"quiz\": {\n        \"name\": \"physics6 Quiz\",\n        \"teacher\": \"6327292a7c47a40dc39b7e6a\",\n        \"_id\": \"632767a1e83621c060602586\",\n        \"__v\": 0\n    },\n    \"teacher\": {\n        \"_id\": \"6327292a7c47a40dc39b7e6a\",\n        \"name\": \"teacher4\",\n        \"email\": \"teacher3@teacher4.com\",\n        \"password\": \"$2b$10$GQ35btpxiNb7JFYHZI7dgeBJ9rKxkZBk6V7RtBXcmcbOJnFkQw8h2\",\n        \"quizzes\": [\n            {\n                \"name\": \"physics6 Quiz\",\n                \"teacher\": \"6327292a7c47a40dc39b7e6a\",\n                \"_id\": \"632767a1e83621c060602586\"\n            }\n        ],\n        \"createdAt\": \"2022-09-18T14:20:26.294Z\",\n        \"updatedAt\": \"2022-09-18T18:46:57.172Z\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "get a quiz",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
